@@ -1,0 +1,26 @@
+version: 1
+stacks:
+  unifi:
+    compose: stacks/unifi/docker-compose.yml
+    bindings:
+      - id: unifi-mongo
+        consumer:
+          service: unifi-network-application
+          image: lscr.io/linuxserver/unifi-network-application
+        dependency:
+          service: unifi-db
+          image: mongo
+        limits:
+          dependency_max_major: 7
+        evidence:
+          - kind: doc
+            url: https://docs.linuxserver.io/images/docker-unifi-network-application/
+            refreshed_at: "2026-10-03"
+            summary: "UniFi 8.x supports MongoDB 3.6–7.0; UniFi 9.x adds MongoDB 8.0."
+        research:
+          - kind: doc
+            url: https://docs.linuxserver.io/images/docker-unifi-network-application/
+        renovate:
+          matchPackageNames: [mongo]
+          matchFileNames: [stacks/unifi/**]
+          allowedVersions: "<8"

@@ -1,0 +1,34 @@
+[project]
+name = "stack-oracle"
+version = "0.1.0"
+description = "Discover compose sidecars, enforce version limits, research vendor docs for co-deployed dependencies"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "Jonas Rosland" }]
+dependencies = [
+  "PyYAML>=6.0.2",
+]
+
+[project.optional-dependencies]
+research = [
+  "httpx>=0.27.0",
+]
+dev = [
+  "pytest>=8.3.0",
+  "httpx>=0.27.0",
+]
+
+[project.scripts]
+stack-oracle = "stack_oracle.cli:main"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["stack_oracle*"]

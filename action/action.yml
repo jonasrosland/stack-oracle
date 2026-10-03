@@ -1,0 +1,37 @@
+name: Stack Oracle
+description: Enforce co-deployed dependency version limits from stack-compatibility.yml
+inputs:
+  manifest:
+    description: Path to stack-compatibility.yml
+    default: stack-compatibility.yml
+  root:
+    description: Repository root
+    default: .
+  run-research:
+    description: Also fetch allowlisted docs/releases and upload report artifact
+    default: "false"
+runs:
+  using: composite
+  steps:
+    - name: Install stack-oracle
+      shell: bash
+      run: pip install --quiet "stack-oracle[research] @ git+https://github.com/jonasrosland/stack-oracle@main"
+
+    - name: Enforce limits (required)
+      shell: bash
+      working-directory: ${{ inputs.root }}
+      run: stack-oracle check --root . --manifest "${{ inputs.manifest }}"
+
+    - name: Research (optional)
+      if: inputs.run-research == 'true'
+      shell: bash
+      working-directory: ${{ inputs.root }}
+      run: |
+        stack-oracle research --manifest "${{ inputs.manifest }}" --out .generated/stack-oracle-research.json
+
+    - name: Upload research artifact
+      if: inputs.run-research == 'true'
+      uses: actions/upload-artifact@v4
+      with:
+        name: stack-oracle-research
+        path: ${{ inputs.root }}/.generated/stack-oracle-research.json
