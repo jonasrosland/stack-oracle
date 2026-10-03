@@ -2,7 +2,7 @@
 
 **Discover** sidecar dependencies in Docker Compose, **enforce** version limits you define from vendor docs, and **research** allowlisted official docs/releases for database-related keywords.
 
-Renovate bumps `mongo` and `litellm` independently—it does not know UniFi needs MongoDB ≤7 or that LiteLLM release notes might mention Postgres. Stack Oracle closes the gap for **co-deployed** services (app + DB/cache in the same compose stack).
+**Examples (illustrative — not hard truths for every deployment):** Renovate may bump sidecar images such as `mongo` or `postgres` independently of the application image. It does not know *your* UniFi controller may only support a specific MongoDB major on LSIO docs, or that a LiteLLM release might mention Postgres requirements. You define caps from vendor docs for your pins; Stack Oracle enforces what you committed for **co-deployed** services (app + DB/cache in the same compose stack).
 
 ## Quick start
 
