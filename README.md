@@ -21,7 +21,10 @@ stack-oracle research --manifest stack-compatibility.yml
 
 ## Manifest
 
-See [docs/schema.md](docs/schema.md). Example: [examples/homelab-unifi/stack-compatibility.yml](examples/homelab-unifi/stack-compatibility.yml).
+See [docs/schema.md](docs/schema.md). Examples:
+
+- [homelab-unifi](examples/homelab-unifi/stack-compatibility.yml) — UniFi + MongoDB
+- [linuxserver-bookstack](examples/linuxserver-bookstack/) — LSIO BookStack + MariaDB (smoke scenarios in `tests/test_lsio_bookstack_smoke.py`)
 
 ## CI on pull requests
 

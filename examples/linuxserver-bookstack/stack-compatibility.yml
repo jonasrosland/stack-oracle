@@ -1,0 +1,27 @@
+# Illustrative policy for LSIO BookStack + co-deployed MariaDB (not homelab production).
+version: 1
+stacks:
+  bookstack:
+    compose: examples/linuxserver-bookstack/docker-compose.yml
+    bindings:
+      - id: bookstack-mariadb
+        consumer:
+          service: bookstack
+          image: lscr.io/linuxserver/bookstack
+        dependency:
+          service: mariadb
+          image: mariadb
+        limits:
+          dependency_max_major: 10
+        evidence:
+          - kind: doc
+            url: https://docs.linuxserver.io/images/docker-bookstack/
+            refreshed_at: "2026-10-03"
+            summary: "BookStack requires an external MariaDB/MySQL database (LSIO documents MariaDB pairing)."
+        research:
+          - kind: doc
+            url: https://docs.linuxserver.io/images/docker-bookstack/
+        renovate:
+          matchPackageNames: [mariadb]
+          matchFileNames: [examples/linuxserver-bookstack/**]
+          allowedVersions: "<11"

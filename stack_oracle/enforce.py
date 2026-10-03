@@ -7,6 +7,11 @@ from pathlib import Path
 from stack_oracle.compose import image_major, load_compose, service_image
 from stack_oracle.manifest import iter_bindings, load_manifest
 
+try:
+    from yaml import YAMLError
+except ImportError:  # pragma: no cover
+    YAMLError = Exception  # type: ignore[misc, assignment]
+
 
 @dataclass
 class Violation:
@@ -32,7 +37,17 @@ def check_manifest(repo_root: Path, manifest_path: Path) -> list[Violation]:
                 Violation(stack_name, binding_id, f"missing compose file {compose_rel}")
             )
             continue
-        services = (load_compose(compose_path).get("services") or {})
+        try:
+            services = (load_compose(compose_path).get("services") or {})
+        except YAMLError as exc:
+            violations.append(
+                Violation(
+                    stack_name,
+                    binding_id,
+                    f"invalid YAML in {compose_rel}: {exc}",
+                )
+            )
+            continue
         img = service_image(services, dep_svc)
         if not img:
             violations.append(
