@@ -15,7 +15,7 @@ runs:
   steps:
     - name: Install stack-oracle
       shell: bash
-      run: pip install --quiet "stack-oracle[research] @ git+https://github.com/jonasrosland/stack-oracle@main"
+      run: pip install --quiet "stack-oracle[research] @ git+https://github.com/jonasrosland/stack-oracle@v0.1.0"
 
     - name: Enforce limits (required)
       shell: bash
